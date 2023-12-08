@@ -1,0 +1,74 @@
+{
+    "numofSlot": 36,
+    "slotType": 2,
+    "dimensions": {
+        "slotTopWidth": 7.7,
+        "slotBottomWidth": 11.2,
+        "slotMainLength": 20,
+        "slotMouthLength": 0.7,
+        "slotToothLength": 1,
+        "slotOpeningWidth": 2.7,
+        "slotTotalLength": 27.3,
+        "outerD": 260,
+        "innerD": 163,
+        "stack": 230
+    },
+    "points": {
+        "origin": [0, 0],
+        "p0": [1.35, 81.4888],
+        "p1": [1.35, 82.4888],
+        "p2": [3.85, 83.1888],
+        "p3": [5.6, 103.1888],
+        "p4": [-5.6, 103.1888],
+        "p5": [-3.85, 83.1888],
+        "p6": [-1.35, 82.4888],
+        "p7": [-1.35, 81.4888],
+        "topArcCenter": [0, 103.1888]
+    },
+    "zone": {
+        "slot": [
+            {
+                "type": "LINE",
+                "attri": [["p2", "p3"]]
+            },
+            {
+                "type": "ARC",
+                "attri": [
+                    {
+                        "centerPoint": "topArcCenter",
+                        "radius": 5.6,
+                        "startAngle": 0,
+                        "endAngle": 3.141592653589793,
+                        "startPoint": "p3",
+                        "endPoint": "p4",
+                        "isClockWise": false
+                    }
+                ]
+            },
+            {
+                "type": "POLYLINE",
+                "attri": [["p4", "p5", "p2"]]
+            }
+        ],
+        "airGap": [
+            {
+                "type": "POLYLINE",
+                "attri": [["p0", "p1", "p2", "p5", "p6", "p7"]]
+            },
+            {
+                "type": "ARC",
+                "attri": [
+                    {
+                        "centerPoint": "origin",
+                        "radius": 81.5,
+                        "startAngle": 1.587361505266404,
+                        "endAngle": 1.554231148323389,
+                        "startPoint": "p7",
+                        "endPoint": "p0",
+                        "isClockWise": true
+                    }
+                ]
+            }
+        ]
+    }
+}

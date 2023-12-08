@@ -1,0 +1,65 @@
+{
+    "numofSlot": 28,
+    "slotType": 17,
+    "dimensions": {
+        "slotTopWidth": 8,
+        "slotBottomWidth": 3.04,
+        "slotMainLength": 22,
+        "slotMouthLength": 4,
+        "slotToothLength": 0.35,
+        "slotOpeningWidth": 0,
+        "slotTotalLength": 27.87,
+        "outerD": 162,
+        "innerD": 45,
+        "stack": 0
+    },
+    "points": {
+        "origin": [0, 0],
+        "p0": [1.52, 54.65],
+        "p1": [4, 76.65],
+        "p2": [-4, 76.65],
+        "p3": [-1.52, 54.65],
+        "topArcCenter": [0, 76.65],
+        "bottomArcCenter": [0, 54.65]
+    },
+    "zone": {
+        "slot": [
+            {
+                "type": "LINE",
+                "attri": [["p0", "p1"]]
+            },
+            {
+                "type": "ARC",
+                "attri": [
+                    {
+                        "centerPoint": "topArcCenter",
+                        "radius": 4,
+                        "startAngle": 0,
+                        "endAngle": 3.141592653589793,
+                        "startPoint": "p1",
+                        "endPoint": "p2",
+                        "isClockWise": false
+                    }
+                ]
+            },
+            {
+                "type": "LINE",
+                "attri": [["p2", "p3"]]
+            },
+            {
+                "type": "ARC",
+                "attri": [
+                    {
+                        "centerPoint": "bottomArcCenter",
+                        "radius": 1.52,
+                        "startAngle": 3.141592653589793,
+                        "endAngle": 0,
+                        "startPoint": "p3",
+                        "endPoint": "p0",
+                        "isClockWise": false
+                    }
+                ]
+            }
+        ]
+    }
+}
