@@ -2,6 +2,10 @@
 
 이 프로젝트는 JSON의 데이터를 활용하여 SVG(Scaleable Vector Graphics)를 사용하여 그래픽 요소를 생성하고 회전, 복사하는 예제입니다.
 
+<p align="center">
+  <img width="400" alt="example_img" src="https://github.com/minjo0n61/svg_project/assets/76935187/464714e2-7890-4088-a9d9-88b5b008c2db">
+</p>
+
 ## 기능
 
 - Rotor 및 Stator 데이터를 JSON 파일에서 가져와 SVG로 그리기
@@ -14,6 +18,7 @@
 ```bash
 git clone https://github.com/minjo0n61/svg_project.git
 ```
+
 
 2. 프로젝트 폴더로 이동합니다.
 ```bash
