@@ -2,20 +2,13 @@ const rotorSampleJsonFilePath = './json/rotor_sample.json';
 const statorSampleJsonFilePath = './json/stator_sample.json';
 
 //rotor 데이터 받아오기
-//
 fetchJsonData(rotorSampleJsonFilePath)
     .then((rotorData) => {
-        const rotorVariables = addVariablesToArray(rotorData);
-        // displayDataDiv(rotorVariables, 'resultDiv');
-
+        const rotorVariables = rotorData;
         const rotateNum = rotorVariables.numofSlot;
         let degree = 360 / rotateNum;
         const zone = extractZone(rotorData);
         const zoneCategory = extractZoneName(rotorData);
-
-        // for(let i=0 ;i<zoneCategory.length; i++){
-
-        // }
         const zoneDetails = extractZoneDetails(zone.slot, rotorData.points);
 
         let rotor = document.createElementNS('http://www.w3.org/2000/svg', 'g');
@@ -42,13 +35,10 @@ fetchJsonData(rotorSampleJsonFilePath)
 //stator 데이터 받아오기
 fetchJsonData(statorSampleJsonFilePath)
     .then((statorData) => {
-        const statorVariables = addVariablesToArray(statorData);
-        // displayDataDiv(statorVariables, 'asdf');
-
+        const statorVariables = statorData;
         const rotateNum = statorVariables.numofSlot;
         let degree = 360 / rotateNum;
         const zone = extractZone(statorData);
-
         const zoneCategory = extractZoneName(statorData);
         const zoneDetails_airGap = extractZoneDetails(zone.airGap, statorData.points);
         const zoneDetails_slot = extractZoneDetails(zone.slot, statorData.points);
@@ -83,17 +73,7 @@ fetchJsonData(statorSampleJsonFilePath)
         console.log('Error fetching Stator Sample JSON Data:', error);
     });
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-// fetch로 json 데이터 가져오기
+//fetch로 json 데이터 가져오기
 function fetchJsonData(filePath) {
     return fetch(filePath)
         .then((response) => response.json())
@@ -102,15 +82,7 @@ function fetchJsonData(filePath) {
         });
 }
 
-//
-function addVariablesToArray(data) {
-    const variablesArray = Object.entries(data).reduce((acc, [key, value]) => {
-        acc[key] = value;
-        return acc;
-    }, {});
-    return variablesArray;
-}
-
+//화면에 data 출력
 function displayDataDiv(data, divId) {
     const resultDiv = document.getElementById(divId);
     if (resultDiv) {
@@ -129,26 +101,26 @@ function displayDataDiv(data, divId) {
 //     return objectKeys;
 // }
 
+//zone 추출
 function extractZone(sampleData) {
     return sampleData.zone;
 }
 
+//key값 추출
 function extractZoneName(sampleData) {
     return Object.keys(sampleData.zone);
 }
 
+//선분 그릴 때 필요한 정보 points에서 가져오기
 function extractLineDetail(line, points) {
     const [startPointName, endPointName] = line[0];
     const startPoint = points[startPointName];
     const endPoint = points[endPointName];
 
-    // console.log('type: LINE');
-    // console.log('start', 'end');
-    // console.log(startPoint);
-    // console.log(endPoint);
     return [{ startPointName: startPoint }, { endPointName: endPoint }];
 }
 
+//호(arc) 그릴 때 필요한 정보 points에서 가져오기
 function extractArcDetail(arc, points) {
     const { centerPoint, startPoint, endPoint, radius, startAngle, endAngle, isClockWise } = arc[0];
     const centerPointValue = points[centerPoint];
@@ -159,30 +131,24 @@ function extractArcDetail(arc, points) {
     const endAngleValue = endAngle;
     const isClockWiseValue = isClockWise;
 
-    // console.log('type: ARC');
-    // console.log('centerpoint', 'startpoint', 'endPoint');
-    // console.log(centerPointValue, startPointValue, endPointValue);
     return [centerPointValue, startPointValue, endPointValue, radiusValue, startAngleValue, endAngleValue, isClockWiseValue];
 }
 
+//여러 선분 그릴 때 필요한 정보 points에서 가져오기
 function extractPolylineDetail(polyline, points) {
     let arr = [];
     for (let i = 0; i < polyline[0].length; i++) {
         arr.push(points[polyline[0][i]]);
     }
 
-    // console.log('type: POLYLINE');
-    // console.log(polyline[0]);
-    // console.log(arr);
     return arr;
 }
 
+//type에 따른 함수 연동
 function extractZoneDetails(zone, points) {
     let result = [];
-
     zone.forEach((entry) => {
         const { type, attri } = entry;
-
         if (type === 'LINE') {
             const lineDetails = extractLineDetail(attri, points);
             result.push({ type, lineDetails });
@@ -197,14 +163,15 @@ function extractZoneDetails(zone, points) {
     return result;
 }
 
-function selectZone(zoneCategory) {
-    let array = [];
-    zoneCategory.forEach((category) => {
-        array.push(Object.entries(category));
-    });
-    return array;
-}
+// function selectZone(zoneCategory) {
+//     let array = [];
+//     zoneCategory.forEach((category) => {
+//         array.push(Object.entries(category));
+//     });
+//     return array;
+// }
 
+//선분 그리기
 function drawLine([startPoint, endPoint], whatdata) {
     let line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
 
@@ -215,15 +182,11 @@ function drawLine([startPoint, endPoint], whatdata) {
     line.setAttribute('stroke', 'black');
     line.setAttribute('stroke-linecap', 'round');
     line.setAttribute('stroke-width', '0.5');
-    // console.log(
-    //     ('x1', startPoint.startPointName[0]),
-    //     ('y1', -startPoint.startPointName[1]),
-    //     ('x2', endPoint.endPointName[0]),
-    //     ('y2', -endPoint.endPointName[1])
-    // );
+
     document.getElementById(`svg_${whatdata}`).appendChild(line);
 }
 
+//호(arc) 그리기
 function drawArc([centerPoint, startPoint, endPoint, radius, startAngle, endAngle, isClockWise], whatdata) {
     let path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
 
@@ -240,6 +203,7 @@ function drawArc([centerPoint, startPoint, endPoint, radius, startAngle, endAngl
     document.getElementById(`svg_${whatdata}`).appendChild(path);
 }
 
+//여러 선분 그리기
 function drawPolyline(arr, whatdata) {
     let polyline = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
     let polylinePoints = [];
@@ -249,7 +213,6 @@ function drawPolyline(arr, whatdata) {
 
         polylinePoints.push([x, y]);
     });
-    // console.log(polylinePoints.join(' '));
     polyline.setAttribute('points', polylinePoints.join(' '));
     polyline.setAttribute('fill', 'none');
     polyline.setAttribute('stroke', 'black');
@@ -259,9 +222,11 @@ function drawPolyline(arr, whatdata) {
     document.getElementById(`svg_${whatdata}`).appendChild(polyline);
 }
 
+//완성된 1개의 svg 복사하여 원점을 기준으로 rotateNum번 만큼 회전 및 복사
 function rotateDiv(rotateNum, whatdata, degree) {
     let idNum = 0;
 
+    // deep copy를 통해 하위 div 내용까지 복사
     for (let i = 0; i < rotateNum; i++) {
         let originalDiv = document.getElementById(`svg_${whatdata}`);
         let copyDiv = originalDiv.cloneNode(true);
